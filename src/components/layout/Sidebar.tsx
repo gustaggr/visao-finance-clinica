@@ -15,6 +15,8 @@ import {
   LogOut 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -45,6 +47,17 @@ const NavItem = ({ icon: Icon, href, label, isCollapsed }: NavItemProps) => {
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div
@@ -72,48 +85,57 @@ export default function Sidebar() {
       </div>
       <div className="flex-1 overflow-auto py-2 px-3">
         <div className="space-y-1">
+          {/* Dashboard é acessível a todos */}
           <NavItem
             icon={BarChart3}
             href="/"
             label="Dashboard"
             isCollapsed={isCollapsed}
           />
-          <NavItem
-            icon={FileText}
-            href="/reports"
-            label="Exames / Laudos"
-            isCollapsed={isCollapsed}
-          />
-          <NavItem
-            icon={Calendar}
-            href="/appointments"
-            label="Consultas"
-            isCollapsed={isCollapsed}
-          />
-          <NavItem
-            icon={Users}
-            href="/patients"
-            label="Pacientes"
-            isCollapsed={isCollapsed}
-          />
-          <NavItem
-            icon={Package}
-            href="/products"
-            label="Produtos"
-            isCollapsed={isCollapsed}
-          />
-          <NavItem
-            icon={BarChart3}
-            href="/finances"
-            label="Financeiro"
-            isCollapsed={isCollapsed}
-          />
-          <NavItem
-            icon={ClipboardList}
-            href="/logs"
-            label="Logs"
-            isCollapsed={isCollapsed}
-          />
+          
+          {/* Itens disponíveis apenas para médicos e funcionários */}
+          {(user.role === "doctor" || user.role === "staff") && (
+            <>
+              <NavItem
+                icon={FileText}
+                href="/reports"
+                label="Exames / Laudos"
+                isCollapsed={isCollapsed}
+              />
+              <NavItem
+                icon={Calendar}
+                href="/appointments"
+                label="Consultas"
+                isCollapsed={isCollapsed}
+              />
+              <NavItem
+                icon={Users}
+                href="/patients"
+                label="Pacientes"
+                isCollapsed={isCollapsed}
+              />
+              <NavItem
+                icon={Package}
+                href="/products"
+                label="Produtos"
+                isCollapsed={isCollapsed}
+              />
+              <NavItem
+                icon={BarChart3}
+                href="/finances"
+                label="Financeiro"
+                isCollapsed={isCollapsed}
+              />
+              <NavItem
+                icon={ClipboardList}
+                href="/logs"
+                label="Logs"
+                isCollapsed={isCollapsed}
+              />
+            </>
+          )}
+
+          {/* Configurações acessíveis a todos */}
           <NavItem
             icon={Settings}
             href="/settings"
@@ -127,13 +149,19 @@ export default function Sidebar() {
           {!isCollapsed && (
             <div className="flex flex-col space-y-1">
               <p className="text-xs font-medium text-slate-500">Logado como</p>
-              <p className="text-sm font-medium">Dr. Carlos Silva</p>
+              <p className="text-sm font-medium">{user.name}</p>
+              <p className="text-xs text-slate-500">
+                {user.role === "doctor" && "Médico"}
+                {user.role === "staff" && "Funcionário"}
+                {user.role === "patient" && "Paciente"}
+              </p>
             </div>
           )}
           <Button
             variant="ghost"
             size="icon"
             className="ml-auto text-slate-500 hover:text-slate-900"
+            onClick={handleLogout}
           >
             <LogOut className="h-5 w-5" />
             <span className="sr-only">Sair</span>
