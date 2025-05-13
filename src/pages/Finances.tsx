@@ -1,6 +1,7 @@
 
 import { useState } from "react";
-import { BarChart3, DollarSign, Download, Calendar, TrendingUp, TrendingDown, ArrowUpDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { BarChart3, DollarSign, Download, Calendar, TrendingUp, TrendingDown, ArrowUpDown, PlusCircle } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -93,6 +94,15 @@ export default function Finances() {
 
   return (
     <DashboardLayout title="Sistema Financeiro">
+      <div className="flex justify-end mb-4">
+        <Button asChild>
+          <Link to="/finances/transactions" className="flex items-center gap-2">
+            <PlusCircle className="h-4 w-4" />
+            Novo Lançamento
+          </Link>
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -206,8 +216,8 @@ export default function Finances() {
             <BarChart3 className="h-5 w-5 text-vision" />
             Últimas Transações
           </CardTitle>
-          <Button variant="outline" size="sm">
-            Ver tudo
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/finances/transactions">Ver tudo</Link>
           </Button>
         </CardHeader>
         <CardContent>

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Reports from "./pages/Reports";
 import Finances from "./pages/Finances";
+import FinanceTransactions from "./pages/FinanceTransactions";
 import Products from "./pages/Products";
 import Appointments from "./pages/Appointments";
 import Logs from "./pages/Logs";
@@ -65,6 +66,12 @@ const App = () => (
             <Route path="/finances" element={
               <ProtectedRoute 
                 element={<Finances />} 
+                allowedRoles={["doctor", "staff"]} 
+              />
+            } />
+            <Route path="/finances/transactions" element={
+              <ProtectedRoute 
+                element={<FinanceTransactions />} 
                 allowedRoles={["doctor", "staff"]} 
               />
             } />

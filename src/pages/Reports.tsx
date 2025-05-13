@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { FileText, Search, Filter } from "lucide-react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,7 +23,7 @@ import {
 
 const reports = [
   {
-    id: "001",
+    id: "1",
     patient: "Maria Silva",
     exam: "Mapeamento de Retina",
     doctor: "Dr. Carlos Santos",
@@ -30,7 +31,7 @@ const reports = [
     status: "Pronto",
   },
   {
-    id: "002",
+    id: "2",
     patient: "João Pereira",
     exam: "Tonometria",
     doctor: "Dra. Ana Oliveira",
@@ -38,7 +39,7 @@ const reports = [
     status: "Pronto",
   },
   {
-    id: "003",
+    id: "3",
     patient: "Pedro Almeida",
     exam: "Topografia Corneana",
     doctor: "Dr. Carlos Santos",
@@ -46,7 +47,7 @@ const reports = [
     status: "Aguardando",
   },
   {
-    id: "004",
+    id: "4",
     patient: "Lucia Ferreira",
     exam: "Campimetria",
     doctor: "Dra. Ana Oliveira",
@@ -54,7 +55,7 @@ const reports = [
     status: "Pronto",
   },
   {
-    id: "005",
+    id: "5",
     patient: "Fernando Costa",
     exam: "Gonioscopia",
     doctor: "Dr. Carlos Santos",
@@ -62,7 +63,7 @@ const reports = [
     status: "Aguardando",
   },
   {
-    id: "006",
+    id: "6",
     patient: "Mariana Souza",
     exam: "OCT",
     doctor: "Dra. Ana Oliveira",
@@ -70,7 +71,7 @@ const reports = [
     status: "Em análise",
   },
   {
-    id: "007",
+    id: "7",
     patient: "Roberto Lima",
     exam: "Paquimetria",
     doctor: "Dr. Carlos Santos",
@@ -78,7 +79,7 @@ const reports = [
     status: "Pronto",
   },
   {
-    id: "008",
+    id: "8",
     patient: "Carla Rodrigues",
     exam: "Biomicroscopia",
     doctor: "Dra. Ana Oliveira",
@@ -178,8 +179,8 @@ export default function Reports() {
                       </span>
                     </TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm">
-                        Visualizar
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link to={`/reports/${report.id}`}>Visualizar</Link>
                       </Button>
                     </TableCell>
                   </TableRow>
