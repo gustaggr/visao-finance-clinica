@@ -1,8 +1,9 @@
 
 import { useState } from "react";
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, Sun, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/ThemeContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Toggle } from "@/components/ui/toggle";
 
 interface HeaderProps {
   title: string;
@@ -18,21 +20,37 @@ interface HeaderProps {
 
 export default function Header({ title }: HeaderProps) {
   const [notifications] = useState(3);
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-white px-6">
+    <header className="flex h-14 items-center gap-4 border-b bg-card px-4 sm:px-6">
       <div className="flex-1">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-base sm:text-lg font-semibold">{title}</h1>
       </div>
-      <form className="relative w-72">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-        <Input
-          type="search"
-          placeholder="Pesquisar..."
-          className="w-full rounded-lg pl-8 shadow-none"
-        />
-      </form>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
+        <div className="relative hidden sm:block w-48 md:w-72">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Pesquisar..."
+            className="w-full rounded-lg pl-8 shadow-none"
+          />
+        </div>
+
+        <Toggle 
+          pressed={theme === "dark"}
+          onPressedChange={toggleTheme}
+          size="sm"
+          className="ml-auto"
+          aria-label="Alternar tema"
+        >
+          {theme === "dark" ? (
+            <Sun className="h-4 w-4" />
+          ) : (
+            <Moon className="h-4 w-4" />
+          )}
+        </Toggle>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -55,19 +73,19 @@ export default function Header({ title }: HeaderProps) {
             <DropdownMenuItem>
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-medium">Nova consulta agendada</p>
-                <p className="text-xs text-slate-500">Há 5 minutos</p>
+                <p className="text-xs text-muted-foreground">Há 5 minutos</p>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-medium">Laudo pronto para revisão</p>
-                <p className="text-xs text-slate-500">Há 30 minutos</p>
+                <p className="text-xs text-muted-foreground">Há 30 minutos</p>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-medium">Estoque baixo de produto #1234</p>
-                <p className="text-xs text-slate-500">Há 2 horas</p>
+                <p className="text-xs text-muted-foreground">Há 2 horas</p>
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

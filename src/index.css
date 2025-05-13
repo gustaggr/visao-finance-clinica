@@ -73,6 +73,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 254 78% 55%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 254 78% 55%;
@@ -94,7 +95,7 @@
   }
 
   .stat-card {
-    @apply bg-white rounded-xl shadow-sm p-4 flex flex-col space-y-2 border border-slate-100;
+    @apply bg-card rounded-xl shadow-sm p-4 flex flex-col space-y-2 border border-border;
   }
   
   .stat-value {
@@ -107,5 +108,16 @@
   
   .stat-icon {
     @apply text-vision-light;
+  }
+  
+  /* Responsive improvements */
+  @media (max-width: 640px) {
+    .stat-card {
+      @apply p-3;
+    }
+    
+    .stat-value {
+      @apply text-xl;
+    }
   }
 }
